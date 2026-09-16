@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bmainleafit01"]
+
+[ext_resource type="Texture2D" uid="uid://c7wh60wkddu1p" path="res://bg.jpg" id="1_bg"]
+
+[node name="Main" type="Node2D" unique_id=902138172]
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1795210885]
+layer = -1
+
+[node name="BG" type="TextureRect" parent="Background" unique_id=2090063342]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -506.0
+offset_right = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_bg")
+expand_mode = 2
+stretch_mode = 6
