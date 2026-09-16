@@ -7,3 +7,5 @@
 addons/claudot/bridge/.env
 .claude/*
 .DS_Store
+# Claudot
+.claude/settings.local.json
