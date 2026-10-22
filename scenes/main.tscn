@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bmainleafit01"]
+
+[ext_resource type="Texture2D" uid="uid://c7wh60wkddu1p" path="res://assets/bg.jpg" id="1_bg"]
+[ext_resource type="Script" uid="uid://b8sbng1y6747c" path="res://scripts/leavesGenerator.gd" id="3_sugp2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
+size = Vector2(1277, 57)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iefic"]
+size = Vector2(720.25, 58.5)
+
+[node name="Main" type="Node2D" unique_id=902138172]
+script = ExtResource("3_sugp2")
+
+[node name="Background" type="CanvasLayer" parent="." unique_id=1795210885]
+layer = -1
+
+[node name="BG" type="TextureRect" parent="Background" unique_id=2090063342]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -512.0
+offset_right = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_bg")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="Constraints" type="StaticBody2D" parent="Background/BG" unique_id=1188230530]
+position = Vector2(512, 0)
+
+[node name="RightWall" type="CollisionShape2D" parent="Background/BG/Constraints" unique_id=1253501970]
+position = Vector2(738, 641.5)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Background/BG/Constraints" unique_id=1136640404]
+position = Vector2(-28.5, 640)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_sugp2")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Background/BG/Constraints" unique_id=987639196]
+position = Vector2(359.875, 1309.25)
+shape = SubResource("RectangleShape2D_iefic")
+
+[node name="FallingLeavesTimer" type="Timer" parent="." unique_id=1148181096]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="FallingLeavesTimer" to="." method="instanciateLeaf"]
