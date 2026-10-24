@@ -1,0 +1,204 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/gameOverHUD.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/icons/check.svg" id="2_check"]
+[ext_resource type="Texture2D" path="res://assets/icons/replay.svg" id="3_replay"]
+[ext_resource type="FontVariation" path="res://assets/fonts/fredokaBold.tres" id="4_title"]
+[ext_resource type="FontVariation" path="res://assets/fonts/nunitoSemiBold.tres" id="5_body"]
+[ext_resource type="FontVariation" path="res://assets/fonts/fredokaSemiBold.tres" id="6_button"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+bg_color = Color(0.9412, 0.6627, 0.2353, 1)
+border_width_left = 13
+border_width_top = 13
+border_width_right = 13
+border_width_bottom = 13
+border_color = Color(1, 0.9647, 0.9176, 1)
+corner_radius_top_left = 96
+corner_radius_top_right = 96
+corner_radius_bottom_right = 96
+corner_radius_bottom_left = 96
+corner_detail = 16
+shadow_color = Color(0.4784, 0.2706, 0.1882, 0.22)
+shadow_size = 1
+shadow_offset = Vector2(0, 11)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 44.0
+content_margin_top = 118.0
+content_margin_right = 44.0
+content_margin_bottom = 44.0
+bg_color = Color(1, 0.9647, 0.9176, 1)
+corner_radius_top_left = 52
+corner_radius_top_right = 52
+corner_radius_bottom_right = 52
+corner_radius_bottom_left = 52
+shadow_color = Color(0.4784, 0.2706, 0.1882, 0.25)
+shadow_size = 1
+shadow_offset = Vector2(0, 18)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buttonNormal"]
+bg_color = Color(0.7882, 0.3373, 0.1216, 1)
+corner_radius_top_left = 33
+corner_radius_top_right = 33
+corner_radius_bottom_right = 33
+corner_radius_bottom_left = 33
+shadow_color = Color(0.5608, 0.2275, 0.0706, 1)
+shadow_size = 1
+shadow_offset = Vector2(0, 9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buttonHover"]
+bg_color = Color(0.8235, 0.3882, 0.1686, 1)
+corner_radius_top_left = 33
+corner_radius_top_right = 33
+corner_radius_bottom_right = 33
+corner_radius_bottom_left = 33
+shadow_color = Color(0.5608, 0.2275, 0.0706, 1)
+shadow_size = 1
+shadow_offset = Vector2(0, 9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buttonPressed"]
+bg_color = Color(0.7098, 0.298, 0.1059, 1)
+corner_radius_top_left = 33
+corner_radius_top_right = 33
+corner_radius_bottom_right = 33
+corner_radius_bottom_left = 33
+shadow_color = Color(0.5608, 0.2275, 0.0706, 1)
+shadow_size = 1
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="GameOverHUD" type="CanvasLayer"]
+layer = 2
+visible = false
+script = ExtResource("1_script")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3529, 0.1804, 0.102, 0.16)
+
+[node name="Card" type="VBoxContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 52.0
+offset_right = -52.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_constants/separation = 0
+
+[node name="BadgeRow" type="Control" parent="Screen/Card"]
+z_index = 1
+custom_minimum_size = Vector2(0, 107)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Badge" type="Panel" parent="Screen/Card/BadgeRow"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 192.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge")
+
+[node name="Check" type="TextureRect" parent="Screen/Card/BadgeRow/Badge"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_check")
+
+[node name="Panel" type="PanelContainer" parent="Screen/Card"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Content" type="VBoxContainer" parent="Screen/Card/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 33
+
+[node name="Heading" type="VBoxContainer" parent="Screen/Card/Panel/Content"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Title" type="Label" parent="Screen/Card/Panel/Content/Heading"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3529, 0.1804, 0.102, 1)
+theme_override_fonts/font = ExtResource("4_title")
+theme_override_font_sizes/font_size = 81
+text = "All swept!"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Screen/Card/Panel/Content/Heading"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4784, 0.2706, 0.1882, 1)
+theme_override_fonts/font = ExtResource("5_body")
+theme_override_font_sizes/font_size = 30
+text = "Not a single leaf left in the yard."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="PlayAgain" type="Button" parent="Screen/Card/Panel/Content"]
+custom_minimum_size = Vector2(0, 107)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_buttonHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_buttonPressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_buttonNormal")
+
+[node name="Inner" type="HBoxContainer" parent="Screen/Card/Panel/Content/PlayAgain"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Screen/Card/Panel/Content/PlayAgain/Inner"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("3_replay")
+
+[node name="Text" type="Label" parent="Screen/Card/Panel/Content/PlayAgain/Inner"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("6_button")
+theme_override_font_sizes/font_size = 41
+text = "Play again"
+
+[connection signal="pressed" from="Screen/Card/Panel/Content/PlayAgain" to="." method="onPlayAgainPressed"]

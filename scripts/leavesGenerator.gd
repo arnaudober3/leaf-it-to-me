@@ -16,9 +16,52 @@ const INITIAL_PILE_AREA = {
 }
 # Consecutive rejected placements before the pile is considered full
 const MAX_FAILED_ATTEMPTS = 300
+# Seconds the yard must stay clear before the game is won
+const CLEAR_HOLD_DURATION = 1.0
+
+@onready var clearCheck = $ClearCheck
+@onready var gameOverHUD = $GameOverHUD
+
+var clearHoldElapsed: float = 0.0
+var hasWon: bool = false
 
 func _ready() -> void:
 	createInitialLeaves()
+
+func _process(delta: float) -> void:
+	if hasWon:
+		return
+
+	if not isYardClear():
+		clearHoldElapsed = 0.0
+		clearCheck.hideCheck()
+		return
+
+	clearHoldElapsed += delta
+	clearCheck.setProgress(clearHoldElapsed / CLEAR_HOLD_DURATION)
+	if clearHoldElapsed >= CLEAR_HOLD_DURATION:
+		win()
+
+# Leaves still falling above the screen do not count until they enter it
+func isYardClear() -> bool:
+	for child in get_children():
+		if child is Leaf and (child.isDragging or not child.isOutOfBounds()):
+			return false
+
+	return true
+
+func win() -> void:
+	hasWon = true
+	$FallingLeavesTimer.stop()
+	# Leaves still falling above the screen would otherwise drop in behind the win screen
+	for child in get_children():
+		if child is Leaf:
+			child.queue_free()
+	clearCheck.hideCheck()
+	gameOverHUD.appear()
+
+func restart() -> void:
+	get_tree().reload_current_scene()
 	
 func instanciateLeaf() -> void:
 	var pos = Vector2(randf_range(X_RANGE["min"], X_RANGE["max"]), Y_START)
