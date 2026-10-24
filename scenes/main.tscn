@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://c7wh60wkddu1p" path="res://assets/bg.jpg" id="1_bg"]
 [ext_resource type="Script" uid="uid://b8sbng1y6747c" path="res://scripts/leavesGenerator.gd" id="3_sugp2"]
+[ext_resource type="PackedScene" path="res://scenes/clearCheck.tscn" id="4_clear"]
+[ext_resource type="PackedScene" path="res://scenes/gameOverHUD.tscn" id="5_gameover"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(1277, 57)
@@ -48,4 +50,9 @@ shape = SubResource("RectangleShape2D_iefic")
 wait_time = 3.0
 autostart = true
 
+[node name="ClearCheck" parent="." instance=ExtResource("4_clear")]
+
+[node name="GameOverHUD" parent="." instance=ExtResource("5_gameover")]
+
 [connection signal="timeout" from="FallingLeavesTimer" to="." method="instanciateLeaf"]
+[connection signal="playAgainPressed" from="GameOverHUD" to="." method="restart"]

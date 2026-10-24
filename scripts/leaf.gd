@@ -20,9 +20,13 @@ const ANGULAR_VELOCITY = {
 
 var isDragging: bool = false
 var screenSize: Vector2
+var collisionLayer: int
+var collisionMask: int
 
 func _ready() -> void:
 	screenSize = get_viewport_rect().size
+	collisionLayer = collision_layer
+	collisionMask = collision_mask
 
 static func create(pos: Vector2, rot: float) -> Leaf:
 	var leaf = load(SCENE_PATH).instantiate()
@@ -57,6 +61,9 @@ func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> vo
 		
 	isDragging = true
 	freeze = true # Temporarly disable gravity/movement for the drag to be smooth
+	# Pass through the other leaves while dragged instead of shoving them around
+	collision_layer = 0
+	collision_mask = 0
 
 # Function called whenever there is an input on the screen
 func _input(event: InputEvent) -> void:
@@ -92,6 +99,8 @@ func getNewPosition(event: InputEvent) -> Vector2:
 
 func release() -> void:
 	isDragging = false
+	collision_layer = collisionLayer
+	collision_mask = collisionMask
 	if isOutOfBounds():
 		queue_free() # Sprite is destroyed as not on the screen anymore
 	else:

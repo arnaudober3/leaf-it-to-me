@@ -1,0 +1,84 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/clearCheck.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://hnmgb0fbq803" path="res://assets/leaf.png" id="2_leaf"]
+[ext_resource type="FontVariation" path="res://assets/fonts/fredokaSemiBold.tres" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ring"]
+bg_color = Color(1, 0.9647, 0.9176, 1)
+corner_radius_top_left = 118
+corner_radius_top_right = 118
+corner_radius_bottom_right = 118
+corner_radius_bottom_left = 118
+corner_detail = 16
+shadow_color = Color(0.4784, 0.2706, 0.1882, 0.22)
+shadow_size = 1
+shadow_offset = Vector2(0, 15)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill"]
+content_margin_left = 37.0
+content_margin_top = 18.0
+content_margin_right = 37.0
+content_margin_bottom = 18.0
+bg_color = Color(1, 0.9647, 0.9176, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+shadow_color = Color(0.4784, 0.2706, 0.1882, 0.2)
+shadow_size = 1
+shadow_offset = Vector2(0, 9)
+
+[node name="ClearCheck" type="CanvasLayer"]
+layer = 1
+visible = false
+script = ExtResource("1_script")
+
+[node name="Content" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_top = 0.18
+anchor_right = 1.0
+anchor_bottom = 0.18
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 26
+
+[node name="Ring" type="Panel" parent="Content"]
+custom_minimum_size = Vector2(236, 236)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ring")
+
+[node name="Leaf" type="TextureRect" parent="Content/Ring"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -36.0
+offset_right = 45.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.35
+pivot_offset = Vector2(45, 36)
+mouse_filter = 2
+texture = ExtResource("2_leaf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Pill" type="PanelContainer" parent="Content"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill")
+
+[node name="Label" type="Label" parent="Content/Pill"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3529, 0.1804, 0.102, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 41
+text = "Yard looks clear…"
