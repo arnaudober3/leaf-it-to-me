@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b8sbng1y6747c" path="res://scripts/leavesGenerator.gd" id="3_sugp2"]
 [ext_resource type="PackedScene" path="res://scenes/clearCheck.tscn" id="4_clear"]
 [ext_resource type="PackedScene" path="res://scenes/gameOverHUD.tscn" id="5_gameover"]
+[ext_resource type="PackedScene" path="res://scenes/creditsScreen.tscn" id="6_credits"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(1277, 57)
@@ -54,5 +55,9 @@ autostart = true
 
 [node name="GameOverHUD" parent="." instance=ExtResource("5_gameover")]
 
+[node name="CreditsScreen" parent="." instance=ExtResource("6_credits")]
+
 [connection signal="timeout" from="FallingLeavesTimer" to="." method="instanciateLeaf"]
 [connection signal="playAgainPressed" from="GameOverHUD" to="." method="restart"]
+[connection signal="creditsPressed" from="GameOverHUD" to="." method="openCredits"]
+[connection signal="closed" from="CreditsScreen" to="." method="closeCredits"]

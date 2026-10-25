@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal playAgainPressed
+signal creditsPressed
 
 const APPEAR_DURATION = 0.25
 const CARD_START_SCALE = Vector2(0.9, 0.9)
@@ -20,3 +21,6 @@ func appear() -> void:
 
 func onPlayAgainPressed() -> void:
 	playAgainPressed.emit()
+
+func onCreditsPressed() -> void:
+	creditsPressed.emit()

@@ -1,0 +1,267 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/creditsScreen.gd" id="1_script"]
+[ext_resource type="FontVariation" path="res://assets/fonts/fredokaSemiBold.tres" id="2_name"]
+[ext_resource type="FontVariation" path="res://assets/fonts/fredokaBold.tres" id="3_title"]
+[ext_resource type="FontVariation" path="res://assets/fonts/nunitoExtraBold.tres" id="4_eyebrow"]
+[ext_resource type="FontVariation" path="res://assets/fonts/fredokaMedium.tres" id="5_detail"]
+[ext_resource type="FontVariation" path="res://assets/fonts/nunitoSemiBold.tres" id="6_license"]
+[ext_resource type="Texture2D" path="res://assets/icons/leafDivider.svg" id="7_divider"]
+
+[sub_resource type="Shader" id="Shader_fade"]
+code = "shader_type canvas_item;
+
+// Fades the end titles in at the bottom and out at the top
+uniform float fadeHeight = 148.0;
+
+void fragment() {
+	float fade = fadeHeight * TEXTURE_PIXEL_SIZE.y;
+	COLOR.a *= smoothstep(0.0, fade, UV.y) * smoothstep(1.0, 1.0 - fade, UV.y);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fade"]
+shader = SubResource("Shader_fade")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_closeNormal"]
+content_margin_left = 41.0
+content_margin_right = 41.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.9843, 0.8902, 0.7843, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_closeHover"]
+content_margin_left = 41.0
+content_margin_right = 41.0
+bg_color = Color(0.9843, 0.8902, 0.7843, 0.12)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.9843, 0.8902, 0.7843, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="CreditsScreen" type="CanvasLayer"]
+layer = 3
+visible = false
+script = ExtResource("1_script")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.2431, 0.1216, 0.0549, 0.72)
+
+[node name="Leaves" type="Node2D" parent="Screen"]
+
+[node name="Title" type="Label" parent="Screen"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 118.0
+offset_bottom = 208.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("3_title")
+theme_override_font_sizes/font_size = 74
+text = "Credits"
+horizontal_alignment = 1
+
+[node name="RollMask" type="SubViewportContainer" parent="Screen"]
+material = SubResource("ShaderMaterial_fade")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 258.0
+offset_bottom = -232.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Screen/RollMask"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(720, 790)
+render_target_update_mode = 4
+
+[node name="Roll" type="VBoxContainer" parent="Screen/RollMask/Viewport"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 59.0
+offset_right = -59.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 103
+
+[node name="GameBy" type="VBoxContainer" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Role" type="Label" parent="Screen/RollMask/Viewport/Roll/GameBy"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9843, 0.8902, 0.7843, 1)
+theme_override_fonts/font = ExtResource("4_eyebrow")
+theme_override_font_sizes/font_size = 24
+text = "A game by"
+uppercase = true
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Name" type="Label" parent="Screen/RollMask/Viewport/Roll/GameBy"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("2_name")
+theme_override_font_sizes/font_size = 55
+text = "Arnaud Ober"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Music" type="VBoxContainer" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Role" type="Label" parent="Screen/RollMask/Viewport/Roll/Music"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9843, 0.8902, 0.7843, 1)
+theme_override_fonts/font = ExtResource("4_eyebrow")
+theme_override_font_sizes/font_size = 24
+text = "Music"
+uppercase = true
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Name" type="Label" parent="Screen/RollMask/Viewport/Roll/Music"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("2_name")
+theme_override_font_sizes/font_size = 55
+text = "Arnaud Ober"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Divider" type="TextureRect" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("7_divider")
+
+[node name="ArtAssets" type="VBoxContainer" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Role" type="Label" parent="Screen/RollMask/Viewport/Roll/ArtAssets"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9843, 0.8902, 0.7843, 1)
+theme_override_fonts/font = ExtResource("4_eyebrow")
+theme_override_font_sizes/font_size = 24
+text = "Art assets"
+uppercase = true
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Name" type="Label" parent="Screen/RollMask/Viewport/Roll/ArtAssets"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("5_detail")
+theme_override_font_sizes/font_size = 44
+text = "Designed by Magnific"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Fonts" type="VBoxContainer" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Role" type="Label" parent="Screen/RollMask/Viewport/Roll/Fonts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9843, 0.8902, 0.7843, 1)
+theme_override_fonts/font = ExtResource("4_eyebrow")
+theme_override_font_sizes/font_size = 24
+text = "Fonts"
+uppercase = true
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Name" type="Label" parent="Screen/RollMask/Viewport/Roll/Fonts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("5_detail")
+theme_override_font_sizes/font_size = 44
+text = "Fredoka & Nunito"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="License" type="Label" parent="Screen/RollMask/Viewport/Roll/Fonts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9843, 0.8902, 0.7843, 1)
+theme_override_fonts/font = ExtResource("6_license")
+theme_override_font_sizes/font_size = 26
+text = "SIL Open Font License"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Divider2" type="TextureRect" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("7_divider")
+
+[node name="Thanks" type="Label" parent="Screen/RollMask/Viewport/Roll"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("2_name")
+theme_override_font_sizes/font_size = 52
+text = "Thanks for playing!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Close" type="Button" parent="Screen"]
+custom_minimum_size = Vector2(0, 89)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -192.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_colors/font_focus_color = Color(1, 0.9647, 0.9176, 1)
+theme_override_fonts/font = ExtResource("2_name")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_closeHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_closeHover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_closeNormal")
+text = "Tap anywhere to close"
+
+[connection signal="pressed" from="Screen/Close" to="." method="onClosePressed"]
