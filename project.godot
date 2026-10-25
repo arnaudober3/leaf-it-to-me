@@ -11,8 +11,11 @@ config_version=5
 [application]
 
 config/name="Leaf it to me"
+config/description="A small autumn game for mobile, made with Godot. The yard is buried in leaves and more keep falling — swipe them all off the screen to win."
+config/version="1.0.0"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
+config/icon="uid://c4la65gnnomro"
 
 [autoload]
 
@@ -24,7 +27,7 @@ window/size/viewport_width=720
 window/size/viewport_height=1280
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/handheld/orientation="portrait"
+window/handheld/orientation=1
 
 [editor]
 
@@ -33,7 +36,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg", "res://addons/terminal/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
 
 [physics]
 
@@ -43,3 +46,4 @@ enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg", "res://addons/term
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
