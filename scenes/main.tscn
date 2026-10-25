@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/clearCheck.tscn" id="4_clear"]
 [ext_resource type="PackedScene" path="res://scenes/gameOverHUD.tscn" id="5_gameover"]
 [ext_resource type="PackedScene" path="res://scenes/creditsScreen.tscn" id="6_credits"]
+[ext_resource type="AudioStream" uid="uid://d3cbyxrm0ffha" path="res://assets/game_music.ogg" id="6_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
 size = Vector2(1277, 57)
@@ -51,13 +52,18 @@ shape = SubResource("RectangleShape2D_iefic")
 wait_time = 3.0
 autostart = true
 
-[node name="ClearCheck" parent="." instance=ExtResource("4_clear")]
+[node name="ClearCheck" parent="." unique_id=155021736 instance=ExtResource("4_clear")]
 
-[node name="GameOverHUD" parent="." instance=ExtResource("5_gameover")]
+[node name="GameOverHUD" parent="." unique_id=813197330 instance=ExtResource("5_gameover")]
 
-[node name="CreditsScreen" parent="." instance=ExtResource("6_credits")]
+[node name="CreditsScreen" parent="." unique_id=1561000086 instance=ExtResource("6_credits")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=578353791]
+stream = ExtResource("6_tefeu")
+volume_db = -6.0
+autoplay = true
 
 [connection signal="timeout" from="FallingLeavesTimer" to="." method="instanciateLeaf"]
-[connection signal="playAgainPressed" from="GameOverHUD" to="." method="restart"]
 [connection signal="creditsPressed" from="GameOverHUD" to="." method="openCredits"]
+[connection signal="playAgainPressed" from="GameOverHUD" to="." method="restart"]
 [connection signal="closed" from="CreditsScreen" to="." method="closeCredits"]
