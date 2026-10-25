@@ -2,6 +2,10 @@
 
 A small autumn game for mobile, made with Godot. The yard is buried in leaves and more keep falling — swipe them all off the screen to win.
 
+<p align="center">
+  <img src="docs/screenshot.png" alt="The autumn yard with a pile of orange leaves at the bottom of the screen" width="300">
+</p>
+
 ## How to play
 
 - The game starts with a pile of leaves covering the bottom half of the yard.
