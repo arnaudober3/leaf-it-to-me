@@ -1,18 +1,10 @@
 extends Node2D
 
 const Y_START = -96.0
-const X_RANGE = {
-	"min": 0.0,
-	"max": 710.0
-}
+const WALL_THICKNESS = 57.0
 const ROTATION_RANGE = {
 	"min": -1.5,
 	"max": 1.5
-}
-# Bottom half of the screen, inside the walls
-const INITIAL_PILE_AREA = { 
-	"min": Vector2(0.0, 640.0),
-	"max": Vector2(710.0, 1280.0)
 }
 # Consecutive rejected placements before the pile is considered full
 const MAX_FAILED_ATTEMPTS = 300
@@ -22,12 +14,28 @@ const CLEAR_HOLD_DURATION = 1.0
 @onready var clearCheck = $ClearCheck
 @onready var gameOverHUD = $GameOverHUD
 @onready var creditsScreen = $CreditsScreen
+@onready var leftWall: CollisionShape2D = $Constraints/LeftWall
+@onready var rightWall: CollisionShape2D = $Constraints/RightWall
+@onready var bottomWall: CollisionShape2D = $Constraints/BottomWall
 
 var clearHoldElapsed: float = 0.0
 var hasWon: bool = false
 
 func _ready() -> void:
+	# The viewport expands to the device aspect ratio, so the yard follows its size
+	layoutWalls()
+	get_viewport().size_changed.connect(layoutWalls)
 	createInitialLeaves()
+
+# Places the walls just outside the left, right and bottom edges of the screen
+func layoutWalls() -> void:
+	var screenSize = get_viewport_rect().size
+	var halfThickness = WALL_THICKNESS / 2
+	leftWall.shape.size = Vector2(WALL_THICKNESS, screenSize.y)
+	bottomWall.shape.size = Vector2(screenSize.x + WALL_THICKNESS * 2, WALL_THICKNESS)
+	leftWall.position = Vector2(-halfThickness, screenSize.y / 2)
+	rightWall.position = Vector2(screenSize.x + halfThickness, screenSize.y / 2)
+	bottomWall.position = Vector2(screenSize.x / 2, screenSize.y + halfThickness)
 
 func _process(delta: float) -> void:
 	if hasWon:
@@ -73,7 +81,7 @@ func restart() -> void:
 	get_tree().reload_current_scene()
 	
 func instanciateLeaf() -> void:
-	var pos = Vector2(randf_range(X_RANGE["min"], X_RANGE["max"]), Y_START)
+	var pos = Vector2(randf_range(0.0, get_viewport_rect().size.x), Y_START)
 	var rot = randf_range(ROTATION_RANGE["min"], ROTATION_RANGE["max"])
 	var leaf = Leaf.create(pos, rot)
 	add_child(leaf)
@@ -81,11 +89,15 @@ func instanciateLeaf() -> void:
 
 # Randomly places non-overlapping leaves at the bottom of the screen until area is full
 func createInitialLeaves() -> void:
+	# Bottom half of the screen, inside the walls
+	var screenSize = get_viewport_rect().size
+	var pileMin = Vector2(0.0, screenSize.y / 2)
+	var pileMax = screenSize
 	var area = PackedVector2Array([
-		INITIAL_PILE_AREA["min"],
-		Vector2(INITIAL_PILE_AREA["max"].x, INITIAL_PILE_AREA["min"].y),
-		INITIAL_PILE_AREA["max"],
-		Vector2(INITIAL_PILE_AREA["min"].x, INITIAL_PILE_AREA["max"].y)
+		pileMin,
+		Vector2(pileMax.x, pileMin.y),
+		pileMax,
+		Vector2(pileMin.x, pileMax.y)
 	])
 	var shape = Leaf.getShape()
 	var placedLeaves: Array[PackedVector2Array] = []
@@ -93,8 +105,8 @@ func createInitialLeaves() -> void:
 	
 	while failures < MAX_FAILED_ATTEMPTS:
 		var pos = Vector2(
-			randf_range(INITIAL_PILE_AREA["min"].x, INITIAL_PILE_AREA["max"].x),
-			randf_range(INITIAL_PILE_AREA["min"].y, INITIAL_PILE_AREA["max"].y)
+			randf_range(pileMin.x, pileMax.x),
+			randf_range(pileMin.y, pileMax.y)
 		)
 		var rot = randf_range(ROTATION_RANGE["min"], ROTATION_RANGE["max"])
 		var candidate = Transform2D(rot, pos) * shape

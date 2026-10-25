@@ -13,6 +13,9 @@ const LINEAR_VELOCITY = {
 		"max": 150.0
 	}
 }
+# A finger cannot leave the screen, so releasing this close to a side edge throws the leaf out
+const SIDE_EDGE_MARGIN = 48.0
+const THROW_OUT_DURATION = 0.2
 const ANGULAR_VELOCITY = {
 	"min": -2.0,
 	"max": 2.0
@@ -103,9 +106,29 @@ func release() -> void:
 	collision_mask = collisionMask
 	if isOutOfBounds():
 		queue_free() # Sprite is destroyed as not on the screen anymore
+	elif isAtSideEdge():
+		throwOut()
 	else:
 		freeze = false # Case if the sprite is released somewhere on the screen
 	
+
+func isAtSideEdge() -> bool:
+	var viewport = get_viewport_rect()
+	return global_position.x < viewport.position.x + SIDE_EDGE_MARGIN or global_position.x > viewport.end.x - SIDE_EDGE_MARGIN
+
+# Slides the leaf past the nearest side edge, still frozen and without collisions, then destroys it
+func throwOut() -> void:
+	isDragging = true # Keeps the yard from counting as clear while the leaf slides out
+	collision_layer = 0
+	collision_mask = 0
+	var viewport = get_viewport_rect()
+	var isLeft = global_position.x < viewport.get_center().x
+	var targetX = viewport.position.x - SPRITE_HEIGHT if isLeft else viewport.end.x + SPRITE_HEIGHT
+	set_process_input(false)
+
+	var tween = create_tween()
+	tween.tween_property(self, "global_position:x", targetX, THROW_OUT_DURATION).set_ease(Tween.EASE_IN)
+	tween.tween_callback(queue_free)
 
 func isOutOfBounds() -> bool:
 	var viewport = get_viewport_rect()
