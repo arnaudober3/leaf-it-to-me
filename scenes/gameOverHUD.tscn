@@ -201,4 +201,20 @@ theme_override_fonts/font = ExtResource("6_button")
 theme_override_font_sizes/font_size = 41
 text = "Play again"
 
+[node name="Credits" type="LinkButton" parent="Screen/Card/Panel/Content"]
+custom_minimum_size = Vector2(0, 81)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.5412, 0.2902, 0.1686, 1)
+theme_override_colors/font_hover_color = Color(0.3529, 0.1804, 0.102, 1)
+theme_override_colors/font_pressed_color = Color(0.3529, 0.1804, 0.102, 1)
+theme_override_colors/font_focus_color = Color(0.5412, 0.2902, 0.1686, 1)
+theme_override_fonts/font = ExtResource("6_button")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "Credits"
+underline = 1
+
 [connection signal="pressed" from="Screen/Card/Panel/Content/PlayAgain" to="." method="onPlayAgainPressed"]
+[connection signal="pressed" from="Screen/Card/Panel/Content/Credits" to="." method="onCreditsPressed"]

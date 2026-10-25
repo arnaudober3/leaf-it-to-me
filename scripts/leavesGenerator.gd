@@ -21,6 +21,7 @@ const CLEAR_HOLD_DURATION = 1.0
 
 @onready var clearCheck = $ClearCheck
 @onready var gameOverHUD = $GameOverHUD
+@onready var creditsScreen = $CreditsScreen
 
 var clearHoldElapsed: float = 0.0
 var hasWon: bool = false
@@ -58,6 +59,14 @@ func win() -> void:
 		if child is Leaf:
 			child.queue_free()
 	clearCheck.hideCheck()
+	gameOverHUD.appear()
+
+# The win card is hidden so it does not show through the credits
+func openCredits() -> void:
+	gameOverHUD.visible = false
+	creditsScreen.appear()
+
+func closeCredits() -> void:
 	gameOverHUD.appear()
 
 func restart() -> void:
