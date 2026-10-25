@@ -8,10 +8,10 @@
 [ext_resource type="AudioStream" uid="uid://d3cbyxrm0ffha" path="res://assets/game_music.ogg" id="6_tefeu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sugp2"]
-size = Vector2(1277, 57)
+size = Vector2(57, 1280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iefic"]
-size = Vector2(720.25, 58.5)
+size = Vector2(834, 57)
 
 [node name="Main" type="Node2D" unique_id=902138172]
 script = ExtResource("3_sugp2")
@@ -31,21 +31,15 @@ texture = ExtResource("1_bg")
 expand_mode = 2
 stretch_mode = 6
 
-[node name="Constraints" type="StaticBody2D" parent="Background/BG" unique_id=1188230530]
-position = Vector2(512, 0)
+[node name="Constraints" type="StaticBody2D" parent="." unique_id=1188230530]
 
-[node name="RightWall" type="CollisionShape2D" parent="Background/BG/Constraints" unique_id=1253501970]
-position = Vector2(738, 641.5)
-rotation = 1.5707964
+[node name="RightWall" type="CollisionShape2D" parent="Constraints" unique_id=1253501970]
 shape = SubResource("RectangleShape2D_sugp2")
 
-[node name="LeftWall" type="CollisionShape2D" parent="Background/BG/Constraints" unique_id=1136640404]
-position = Vector2(-28.5, 640)
-rotation = 1.5707964
+[node name="LeftWall" type="CollisionShape2D" parent="Constraints" unique_id=1136640404]
 shape = SubResource("RectangleShape2D_sugp2")
 
-[node name="BottomWall" type="CollisionShape2D" parent="Background/BG/Constraints" unique_id=987639196]
-position = Vector2(359.875, 1309.25)
+[node name="BottomWall" type="CollisionShape2D" parent="Constraints" unique_id=987639196]
 shape = SubResource("RectangleShape2D_iefic")
 
 [node name="FallingLeavesTimer" type="Timer" parent="." unique_id=1148181096]
